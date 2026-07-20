@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Pencil } from "lucide-react";
+import { LoaderCircle, Pencil, X } from "lucide-react";
 import {
 	Controller,
 	type DefaultValues,
@@ -117,6 +117,16 @@ export default function CourseFormPage() {
 		setValue("imageName", result.data.name, { shouldDirty: true });
 	}
 
+	function removeImage() {
+		if (formValues.imageUrl?.startsWith("blob:")) {
+			URL.revokeObjectURL(formValues.imageUrl);
+		}
+
+		setValue("imageUrl", undefined, { shouldDirty: true });
+		setValue("imageName", undefined, { shouldDirty: true });
+		setImageError(undefined);
+	}
+
 	function onSubmit(values: CourseFormValues) {
 		const onSuccess = () => navigate("/");
 
@@ -167,8 +177,17 @@ export default function CourseFormPage() {
 						type='submit'
 						form='course-form'
 						disabled={isSaving}
-						className='min-w-28 rounded-md bg-trackman-orange px-6 py-2.5 text-sm font-semibold text-white hover:bg-trackman-orange/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-trackman-orange disabled:cursor-not-allowed disabled:opacity-60'>
-						{isSaving ? "Saving…" : "Save"}
+						className='min-w-28 cursor-pointer rounded-md bg-trackman-orange px-6 py-2.5 text-sm font-semibold text-white hover:bg-trackman-orange/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-trackman-orange disabled:cursor-not-allowed disabled:opacity-60'>
+						<span className='flex items-center justify-center gap-2'>
+							{isSaving && (
+								<LoaderCircle
+									aria-hidden='true'
+									className='animate-spin'
+									size={17}
+								/>
+							)}
+							{isSaving ? "Saving…" : "Save"}
+						</span>
 					</button>
 				</div>
 			</div>
@@ -344,11 +363,20 @@ export default function CourseFormPage() {
 
 						{formValues.imageUrl ? (
 							<div className='mt-4 flex max-w-sm items-center gap-4 rounded-xl bg-white p-3 shadow-sm'>
-								<img
-									src={formValues.imageUrl}
-									alt='Course upload preview'
-									className='h-14 w-14 rounded-md object-cover'
-								/>
+								<div className='relative shrink-0'>
+									<img
+										src={formValues.imageUrl}
+										alt='Course upload preview'
+										className='h-14 w-14 rounded-md object-cover'
+									/>
+									<button
+										type='button'
+										onClick={removeImage}
+										aria-label='Remove image'
+										className='absolute -top-2 -right-2 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-neutral-800 text-white shadow-sm hover:bg-red-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600'>
+										<X aria-hidden='true' size={15} strokeWidth={2.5} />
+									</button>
+								</div>
 								<span className='min-w-0 flex-1 truncate text-sm font-medium'>
 									{formValues.imageName ?? "Current image"}
 								</span>
@@ -356,7 +384,7 @@ export default function CourseFormPage() {
 									type='button'
 									onClick={() => fileInputRef.current?.click()}
 									aria-label='Choose a different image'
-									className='flex h-10 w-10 items-center justify-center rounded-md bg-neutral-100 hover:bg-neutral-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-700'>
+									className='flex h-10 w-10 cursor-pointer items-center justify-center rounded-md bg-neutral-100 hover:bg-neutral-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-700'>
 									<Pencil aria-hidden='true' size={18} />
 								</button>
 							</div>
@@ -369,7 +397,7 @@ export default function CourseFormPage() {
 									event.preventDefault();
 									handleImage(event.dataTransfer.files[0]);
 								}}
-								className='mt-4 flex min-h-52 w-full max-w-3xl flex-col items-center justify-center rounded-xl bg-neutral-200 px-6 text-center text-neutral-500 hover:bg-neutral-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-700'>
+								className='mt-4 flex min-h-52 w-full max-w-3xl cursor-pointer flex-col items-center justify-center rounded-xl bg-neutral-200 px-6 text-center text-neutral-500 hover:bg-neutral-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-700'>
 								<img src={uploadIcon} alt='' className='h-8 w-8' />
 								<span className='mt-3 font-semibold'>Drag &amp; Drop</span>
 								<span className='mt-1 text-sm'>
