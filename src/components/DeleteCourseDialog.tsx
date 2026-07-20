@@ -53,7 +53,7 @@ export default function DeleteCourseDialog({
 					disabled={isDeleting}
 					onClick={onCancel}
 					aria-label='Close delete dialog'
-					className='flex h-9 w-9 cursor-pointer items-center justify-center rounded-md text-neutral-700 hover:bg-neutral-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-700 disabled:cursor-not-allowed disabled:opacity-50'>
+					className='flex h-9 w-9 cursor-pointer items-center justify-center rounded-md text-neutral-700 hover:bg-neutral-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-trackman-orange disabled:cursor-not-allowed disabled:opacity-50'>
 					<X aria-hidden='true' size={26} strokeWidth={2} />
 				</button>
 			</div>
@@ -78,14 +78,14 @@ export default function DeleteCourseDialog({
 						autoFocus
 						disabled={isDeleting}
 						onClick={onCancel}
-						className='min-h-10 flex-1 cursor-pointer rounded-md bg-neutral-100 px-7 py-2.5 text-sm font-semibold hover:bg-neutral-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-700 disabled:cursor-not-allowed disabled:opacity-50 sm:flex-none'>
+						className='min-h-10 flex-1 cursor-pointer rounded-md bg-neutral-100 px-7 py-2.5 text-sm font-semibold hover:bg-neutral-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-trackman-orange disabled:cursor-not-allowed disabled:opacity-50 sm:flex-none'>
 						Cancel
 					</button>
 					<button
 						type='button'
 						disabled={isDeleting}
 						onClick={onConfirm}
-						className='min-h-10 flex-1 cursor-pointer rounded-md bg-red-600 px-7 py-2.5 text-sm font-semibold text-white hover:bg-red-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-700 disabled:cursor-not-allowed disabled:opacity-60 sm:flex-none'>
+						className='min-h-10 flex-1 cursor-pointer rounded-md bg-red-600 px-7 py-2.5 text-sm font-semibold text-white hover:bg-red-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-trackman-orange disabled:cursor-not-allowed disabled:opacity-60 sm:flex-none'>
 						{isDeleting ? "Deleting…" : "Delete"}
 					</button>
 				</div>

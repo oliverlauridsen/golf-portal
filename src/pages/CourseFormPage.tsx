@@ -296,7 +296,7 @@ export default function CourseFormPage() {
 							<input
 								type='checkbox'
 								{...register("featured")}
-								className='h-5 w-5 rounded border-neutral-300 accent-trackman-orange'
+								className='h-5 w-5 rounded border-neutral-300 accent-trackman-orange focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-trackman-orange'
 							/>
 							Featured course
 						</label>
@@ -373,7 +373,7 @@ export default function CourseFormPage() {
 										type='button'
 										onClick={removeImage}
 										aria-label='Remove image'
-										className='absolute -top-2 -right-2 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-neutral-800 text-white shadow-sm hover:bg-red-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600'>
+										className='absolute -top-2 -right-2 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-neutral-800 text-white shadow-sm hover:bg-red-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-trackman-orange'>
 										<X aria-hidden='true' size={15} strokeWidth={2.5} />
 									</button>
 								</div>
@@ -384,7 +384,7 @@ export default function CourseFormPage() {
 									type='button'
 									onClick={() => fileInputRef.current?.click()}
 									aria-label='Choose a different image'
-									className='flex h-10 w-10 cursor-pointer items-center justify-center rounded-md bg-neutral-100 hover:bg-neutral-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-700'>
+									className='flex h-10 w-10 cursor-pointer items-center justify-center rounded-md bg-neutral-100 hover:bg-neutral-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-trackman-orange'>
 									<Pencil aria-hidden='true' size={18} />
 								</button>
 							</div>
@@ -397,7 +397,7 @@ export default function CourseFormPage() {
 									event.preventDefault();
 									handleImage(event.dataTransfer.files[0]);
 								}}
-								className='mt-4 flex min-h-52 w-full max-w-3xl cursor-pointer flex-col items-center justify-center rounded-xl bg-neutral-200 px-6 text-center text-neutral-500 hover:bg-neutral-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-700'>
+								className='mt-4 flex min-h-52 w-full max-w-3xl cursor-pointer flex-col items-center justify-center rounded-xl bg-neutral-200 px-6 text-center text-neutral-500 hover:bg-neutral-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-trackman-orange'>
 								<img src={uploadIcon} alt='' className='h-8 w-8' />
 								<span className='mt-3 font-semibold'>Drag &amp; Drop</span>
 								<span className='mt-1 text-sm'>

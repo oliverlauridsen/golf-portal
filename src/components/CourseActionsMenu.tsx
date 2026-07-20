@@ -48,7 +48,7 @@ export default function CourseActionsMenu({
 			<button
 				ref={buttonRef}
 				type='button'
-				className='cursor-pointer flex h-9 w-9 items-center justify-center rounded-md bg-neutral-100 text-neutral-600 opacity-100 transition hover:bg-neutral-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-700 pointer-fine:opacity-0 pointer-fine:group-hover:opacity-100 pointer-fine:group-focus-within:opacity-100'
+				className='flex h-9 w-9 cursor-pointer items-center justify-center rounded-md bg-neutral-100 text-neutral-600 opacity-100 transition hover:bg-neutral-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-trackman-orange pointer-fine:opacity-0 pointer-fine:group-hover:opacity-100 pointer-fine:group-focus-within:opacity-100'
 				aria-label={`Actions for ${courseName}`}
 				aria-haspopup='menu'
 				aria-expanded={isOpen}
@@ -65,7 +65,7 @@ export default function CourseActionsMenu({
 					<Link
 						to={`/${courseId}/edit`}
 						role='menuitem'
-						className='flex items-center gap-3 px-4 py-3 text-sm text-neutral-700 hover:bg-neutral-50 focus:bg-neutral-50 focus:outline-none'
+						className='flex items-center gap-3 px-4 py-3 text-sm text-neutral-700 hover:bg-neutral-50 focus-visible:bg-white focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-trackman-orange focus-visible:outline-none'
 						onClick={() => setIsOpen(false)}>
 						<Pencil aria-hidden='true' size={17} />
 						Edit
@@ -73,7 +73,7 @@ export default function CourseActionsMenu({
 					<button
 						type='button'
 						role='menuitem'
-						className='flex w-full items-center gap-3 px-4 py-3 text-left text-sm text-neutral-700 hover:bg-neutral-50 focus:bg-neutral-50 focus:outline-none cursor-pointer'
+						className='flex w-full cursor-pointer items-center gap-3 px-4 py-3 text-left text-sm text-neutral-700 hover:bg-neutral-50 focus-visible:bg-white focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-trackman-orange focus-visible:outline-none'
 						onClick={() => {
 							setIsOpen(false);
 							onDelete();
