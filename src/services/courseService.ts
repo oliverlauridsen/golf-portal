@@ -1,26 +1,45 @@
+import { seedCourses } from "../data/seedCourses";
+import { sortCourses } from "../utils/sortCourses";
+import type { CourseService } from "./courseService.types";
+
 import type {
 	Course,
 	CreateCourseInput,
 	UpdateCourseInput,
 } from "../types/course";
 
-interface CourseService {
-	getCourses(): Promise<Course[]>;
-	getCourse(id: string): Promise<Course>;
-	createCourse(input: CreateCourseInput): Promise<Course>;
-	updateCourse(id: string, input: UpdateCourseInput): Promise<Course>;
-	deleteCourse(id: string): Promise<void>;
-}
 const STORAGE_KEY = "courses";
-
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+function initializeCourses(): Course[] {
+	const courses = seedCourses.map((course) => ({ ...course }));
+	writeCoursesToLocalStorage(courses);
+	return courses;
+}
+
+function readCourses(): Course[] {
+	const storedCourses = localStorage.getItem(STORAGE_KEY);
+
+	if (!storedCourses) {
+		return initializeCourses();
+	}
+
+	try {
+		const courses: unknown = JSON.parse(storedCourses);
+
+		if (!Array.isArray(courses)) {
+			return initializeCourses();
+		}
+
+		return courses as Course[];
+	} catch {
+		return initializeCourses();
+	}
+}
 
 async function getCourses(): Promise<Course[]> {
 	await delay(400);
-
-	// TODO: Read STORAGE_KEY from localStorage. If it is empty, initialize it
-	// with seedCourses. Return courses in the required featured ordering.
-	throw new Error(`Reading ${STORAGE_KEY} is not implemented yet`);
+	return sortCourses(readCourses());
 }
 
 async function getCourse(id: string): Promise<Course> {
@@ -53,6 +72,10 @@ async function deleteCourse(id: string): Promise<void> {
 
 	// TODO: Add an observable failure path, remove the course, and persist.
 	throw new Error(`Deleting course ${id} is not implemented yet`);
+}
+
+function writeCoursesToLocalStorage(courses: Course[]): void {
+	localStorage.setItem(STORAGE_KEY, JSON.stringify(courses));
 }
 
 export const courseService: CourseService = {
