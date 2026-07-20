@@ -3,6 +3,8 @@ import { z } from "zod";
 export const courseSchema = z.object({
 	id: z.string(),
 	name: z.string(),
+	description: z.string(),
+	city: z.string(),
 	country: z.string(),
 	par: z.number().int(),
 	difficulty: z.union([
@@ -15,6 +17,7 @@ export const courseSchema = z.object({
 	featured: z.boolean(),
 	featuredAt: z.number().optional(),
 	imageUrl: z.string().optional(),
+	imageName: z.string().optional(),
 	createdAt: z.number(),
 });
 

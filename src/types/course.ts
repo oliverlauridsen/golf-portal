@@ -1,12 +1,15 @@
 export interface Course {
 	id: string;
 	name: string;
+	description: string;
+	city: string;
 	country: string;
 	par: number;
 	difficulty: 1 | 2 | 3 | 4 | 5;
 	featured: boolean;
 	featuredAt?: number;
 	imageUrl?: string;
+	imageName?: string;
 	createdAt: number;
 }
 

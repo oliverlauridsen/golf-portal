@@ -1,11 +1,16 @@
 import { Star } from "lucide-react";
-import placeholderImage from "../assets/courses/unnamed.jpg";
+import placeholderImage from "../assets/courses/placeholder.svg";
 import type { Course } from "../types/course";
 import CourseActionsMenu from "./CourseActionsMenu";
 
+export type CourseCardData = Omit<Course, "par" | "difficulty"> & {
+	par?: Course["par"];
+	difficulty?: Course["difficulty"];
+};
+
 interface CourseCardProps {
-	course: Course;
-	onDelete: (course: Course) => void;
+	course: CourseCardData;
+	onDelete?: () => void;
 }
 
 export default function CourseCard({ course, onDelete }: CourseCardProps) {
@@ -32,13 +37,16 @@ export default function CourseCard({ course, onDelete }: CourseCardProps) {
 			<div className='px-3 pt-5'>
 				<div className='flex items-start justify-between gap-3'>
 					<p className='min-w-0 truncate text-base text-neutral-400'>
-						{course.country}
+						{[course.city, course.country].filter(Boolean).join(", ") ||
+							"Location"}
 					</p>
-					<CourseActionsMenu
-						courseId={course.id}
-						courseName={course.name}
-						onDelete={() => onDelete(course)}
-					/>
+					{onDelete && (
+						<CourseActionsMenu
+							courseId={course.id}
+							courseName={course.name}
+							onDelete={onDelete}
+						/>
+					)}
 				</div>
 
 				<h2
@@ -48,11 +56,11 @@ export default function CourseCard({ course, onDelete }: CourseCardProps) {
 				</h2>
 
 				<div className='mt-2 flex items-center gap-3 text-base text-neutral-500'>
-					<span>Par {course.par}</span>
+					<span>Par {course.par ?? "—"}</span>
 					<span aria-hidden='true' className='text-neutral-500'>
 						•
 					</span>
-					<span>Difficulty: {course.difficulty}/5</span>
+					<span>Difficulty: {course.difficulty ?? "—"}/5</span>
 				</div>
 			</div>
 		</article>

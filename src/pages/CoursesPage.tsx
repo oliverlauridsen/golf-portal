@@ -62,7 +62,10 @@ export default function CoursesPage() {
 						<ul className='grid list-none grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
 							{courses.map((course) => (
 								<li key={course.id}>
-									<CourseCard course={course} onDelete={openDeleteDialog} />
+									<CourseCard
+										course={course}
+										onDelete={() => openDeleteDialog(course)}
+									/>
 								</li>
 							))}
 						</ul>
