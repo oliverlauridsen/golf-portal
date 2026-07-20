@@ -1,4 +1,5 @@
 import { seedCourses } from "../data/seedCourses";
+import { courseArraySchema } from "../schemas/courseSchema";
 import { sortCourses } from "../utils/sortCourses";
 import type { CourseService } from "./courseService.types";
 
@@ -26,13 +27,14 @@ function readCourses(): Course[] {
 	}
 
 	try {
-		const courses: unknown = JSON.parse(storedCourses);
+		const parsedCourses: unknown = JSON.parse(storedCourses);
+		const result = courseArraySchema.safeParse(parsedCourses);
 
-		if (!Array.isArray(courses)) {
+		if (!result.success) {
 			return initializeCourses();
 		}
 
-		return courses as Course[];
+		return result.data;
 	} catch {
 		return initializeCourses();
 	}
