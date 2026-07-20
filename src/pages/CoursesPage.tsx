@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { X } from "lucide-react";
 import { Link } from "react-router-dom";
 import AppHeader from "../components/AppHeader";
 import CourseCard from "../components/CourseCard";
@@ -20,9 +21,8 @@ export default function CoursesPage() {
 	function confirmDelete() {
 		if (!courseToDelete) return;
 
-		deleteCourse.mutate(courseToDelete.id, {
-			onSuccess: () => setCourseToDelete(null),
-		});
+		deleteCourse.mutate(courseToDelete.id);
+		setCourseToDelete(null);
 	}
 
 	return (
@@ -81,6 +81,21 @@ export default function CoursesPage() {
 					onCancel={() => setCourseToDelete(null)}
 					onConfirm={confirmDelete}
 				/>
+			)}
+
+			{deleteCourse.isError && (
+				<div
+					role='alert'
+					className='fixed right-4 bottom-4 z-40 flex max-w-sm items-start gap-4 rounded-lg bg-red-700 px-5 py-4 text-sm text-white shadow-xl sm:right-6 sm:bottom-6'>
+					<p className='leading-6'>{deleteCourse.error.message}</p>
+					<button
+						type='button'
+						onClick={() => deleteCourse.reset()}
+						aria-label='Dismiss delete error'
+						className='mt-0.5 flex shrink-0 cursor-pointer rounded-sm p-0.5 hover:bg-white/15 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white'>
+						<X aria-hidden='true' size={18} />
+					</button>
+				</div>
 			)}
 		</div>
 	);
