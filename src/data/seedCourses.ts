@@ -1,10 +1,10 @@
 import type { Course } from "../types/course";
 
 import albany from "../assets/courses/albany.jpg";
-import hiddenCanyon from "../assets/courses/hidden-canyon.jpg";
-import pebbleBeach from "../assets/courses/pebble-beach.jpg";
+import hiddenCanyon from "../assets/courses/hidden_canyon.jpg";
+import pebbleBeach from "../assets/courses/pebble_beach.jpg";
 import unnamed from "../assets/courses/unnamed.jpg";
-import stAndrews from "../assets/courses/st-andrews.jpg";
+import stAndrews from "../assets/courses/st_andrews.jpg";
 
 const now = Date.now();
 
