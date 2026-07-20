@@ -1,19 +1,27 @@
 import { createBrowserRouter } from "react-router-dom";
 
-import CourseFormPage from "../pages/CourseFormPage";
-import CoursesPage from "../pages/CoursesPage";
-
 export const router = createBrowserRouter([
 	{
 		path: "/",
-		element: <CoursesPage />,
+		lazy: async () => {
+			const { default: CoursesPage } = await import("../pages/CoursesPage");
+			return { Component: CoursesPage };
+		},
 	},
 	{
 		path: "/new",
-		element: <CourseFormPage />,
+		lazy: async () => {
+			const { default: CourseFormPage } =
+				await import("../pages/CourseFormPage");
+			return { Component: CourseFormPage };
+		},
 	},
 	{
 		path: "/:id/edit",
-		element: <CourseFormPage />,
+		lazy: async () => {
+			const { default: CourseFormPage } =
+				await import("../pages/CourseFormPage");
+			return { Component: CourseFormPage };
+		},
 	},
 ]);
