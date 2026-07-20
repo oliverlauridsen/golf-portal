@@ -1,27 +1,43 @@
-import { useState } from "react";
-import { X } from "lucide-react";
-import { Link } from "react-router-dom";
+import { useCallback, useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import AppHeader from "../components/AppHeader";
 import CourseCard from "../components/CourseCard";
 import DeleteCourseDialog from "../components/DeleteCourseDialog";
+import Toast from "../components/Toast";
 import { useCourses } from "../hooks/useCourses";
 import { useDeleteCourse } from "../hooks/useDeleteCourse";
 import type { Course } from "../types/course";
 
 export default function CoursesPage() {
+	const location = useLocation();
+	const navigate = useNavigate();
 	const { data: courses, isPending, isError, error } = useCourses();
 	const deleteCourse = useDeleteCourse();
 	const [courseToDelete, setCourseToDelete] = useState<Course | null>(null);
+	const routeSuccessMessage = (
+		location.state as { successMessage?: string } | null
+	)?.successMessage;
+	const [successMessage, setSuccessMessage] = useState(routeSuccessMessage);
+	const dismissSuccessToast = useCallback(() => setSuccessMessage(undefined), []);
+
+	useEffect(() => {
+		if (!routeSuccessMessage) return;
+
+		navigate(location.pathname, { replace: true, state: null });
+	}, [location.pathname, navigate, routeSuccessMessage]);
 
 	function openDeleteDialog(course: Course) {
 		deleteCourse.reset();
+		setSuccessMessage(undefined);
 		setCourseToDelete(course);
 	}
 
 	function confirmDelete() {
 		if (!courseToDelete) return;
 
-		deleteCourse.mutate(courseToDelete.id);
+		deleteCourse.mutate(courseToDelete.id, {
+			onSuccess: () => setSuccessMessage("Course deleted successfully."),
+		});
 		setCourseToDelete(null);
 	}
 
@@ -84,18 +100,21 @@ export default function CoursesPage() {
 			)}
 
 			{deleteCourse.isError && (
-				<div
-					role='alert'
-					className='fixed right-4 bottom-4 z-40 flex max-w-sm items-start gap-4 rounded-lg bg-red-700 px-5 py-4 text-sm text-white shadow-xl sm:right-6 sm:bottom-6'>
-					<p className='leading-6'>{deleteCourse.error.message}</p>
-					<button
-						type='button'
-						onClick={() => deleteCourse.reset()}
-						aria-label='Dismiss delete error'
-						className='mt-0.5 flex shrink-0 cursor-pointer rounded-sm p-0.5 hover:bg-white/15 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white'>
-						<X aria-hidden='true' size={18} />
-					</button>
-				</div>
+				<Toast
+					variant='error'
+					message={deleteCourse.error.message}
+					autoDismissMs={6000}
+					onDismiss={() => deleteCourse.reset()}
+				/>
+			)}
+
+			{successMessage && (
+				<Toast
+					variant='success'
+					message={successMessage}
+					autoDismissMs={4000}
+					onDismiss={dismissSuccessToast}
+				/>
 			)}
 		</div>
 	);

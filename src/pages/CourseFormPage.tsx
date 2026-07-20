@@ -128,7 +128,14 @@ export default function CourseFormPage() {
 	}
 
 	function onSubmit(values: CourseFormValues) {
-		const onSuccess = () => navigate("/");
+		const onSuccess = () =>
+			navigate("/", {
+				state: {
+					successMessage: id
+						? "Course updated successfully."
+						: "Course created successfully.",
+				},
+			});
 
 		if (id) {
 			updateCourse.mutate({ id, input: values }, { onSuccess });
