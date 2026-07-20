@@ -36,9 +36,22 @@ export default function CourseCard({ course, onDelete }: CourseCardProps) {
 
 			<div className='px-3 pt-5'>
 				<div className='flex items-start justify-between gap-3'>
-					<p className='min-w-0 truncate text-base text-neutral-400'>
-						{[course.city, course.country].filter(Boolean).join(", ") ||
-							"Location"}
+					<p
+						className='flex min-w-0 flex-1 text-base text-neutral-400'
+						title={
+							[course.city, course.country].filter(Boolean).join(", ") ||
+							"Location"
+						}>
+						{course.city && course.country ? (
+							<>
+								<span className='min-w-0 truncate'>{course.city}</span>
+								<span className='shrink-0'>, {course.country}</span>
+							</>
+						) : (
+							<span className='truncate'>
+								{course.city || course.country || "Location"}
+							</span>
+						)}
 					</p>
 					{onDelete && (
 						<CourseActionsMenu
